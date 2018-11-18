@@ -60,6 +60,18 @@ trait CommonTrait
     }
 
     /**
+     * Output a big line.
+     *
+     * @param string $text
+     *
+     * @return void
+     */
+    private function bigLine($text)
+    {
+        $this->bigPrintLine('line', $text);
+    }
+
+    /**
      * Output a big info.
      *
      * @param string $text

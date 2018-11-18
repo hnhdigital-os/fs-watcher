@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Traits\CommonTrait;
 use App\Traits\ProcessesTrait;
+use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 class ConfigCommand extends Command
@@ -105,7 +106,10 @@ class ConfigCommand extends Command
             return;
         }
 
-        if (!$this->checkConfig($key, $value)) {
+        $key_config_method = Str::camel('set_config_'.$key);
+
+        if (method_exists($this, $key_config_method)
+            && !$this->$key_config_method($value)) {
             return;
         }
 
@@ -122,29 +126,28 @@ class ConfigCommand extends Command
     /**
      * Check config value.
      *
-     * @param string $key  
      * @param string $value
      *
      * @return boolean
      */
-    private function checkConfig($key, $value)
+    private function setConfigWorkingDirectory($value)
     {
-        switch ($key) {
-            case 'working-directory':
-                if (!file_exists($value)) {
-                    $answer = strtolower($this->confirm('This path does not exist. Create it?', true));
-
-                    if ($answer) {
-                        mkdir($value, 0755, true);
-
-                        return true;
-                    }
-
-                    return false;
-                }
-                break;
+        if ($value == 'default') {
+            return true;
         }
 
-        return true;
+        $this->bigLine($value);
+
+        if (!file_exists($value)) {
+            $answer = strtolower($this->confirm('This path does not exist. Create it?', true));
+
+            if ($answer) {
+                mkdir($value, 0755, true);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
