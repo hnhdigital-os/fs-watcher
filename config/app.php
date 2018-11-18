@@ -56,6 +56,7 @@ return [
 
     'providers' => [
         App\Providers\AppServiceProvider::class,
+        App\Providers\LaravelConsoleSummaryServiceProvider::class,
         App\Providers\UserConfigServiceProvider::class,
     ],
 

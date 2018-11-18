@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => NunoMaduro\LaravelConsoleSummary\SummaryCommand::class,
+    'default' => App\Commands\SummaryCommand::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     */
 
     'hidden' => [
-        NunoMaduro\LaravelConsoleSummary\SummaryCommand::class,
+        App\Commands\SummaryCommand::class,
         Symfony\Component\Console\Command\HelpCommand::class,
         Illuminate\Console\Scheduling\ScheduleRunCommand::class,
         Illuminate\Console\Scheduling\ScheduleFinishCommand::class,
