@@ -48,8 +48,9 @@ trait ProcessesTrait
             return 1;
         }
 
+        // Default arguments.
         if (empty($script_arguments)) {
-            $script_arguments = '{{root-path}} {{file-path}} {{file-removed}}';
+            $script_arguments = '{{root-path}} {{file-path}} {{event-id}} {{file-removed}}';
         }
 
         $command_hash = $this->getCommandHash($directory_path, $binary, $script_arguments);

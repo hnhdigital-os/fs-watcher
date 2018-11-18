@@ -58,15 +58,17 @@ trait WatchTrait
     private function processEvent($event_detail)
     {
         $is_dir = false;
+
         // Directory events have a different hex, convert to the same number for a file event.
-        $hex = $event_detail['mask'];
-        $dechex = (string) dechex($event_detail['mask']);
+        $event_id = $event_detail['mask'];
+        $dechex = (string) dechex($event_id);
+
         // Correctly apply for 40.
         if ($dechex === '40') {
-            $event_detail['mask'] = IN_MOVED_FROM;
+            $event_id = IN_MOVED_FROM;
         } elseif (substr($dechex, 0, 1) === '4') {
             $dechex[0] = '0';
-            $event_detail['mask'] = hexdec((int) $dechex);
+            $event_id = hexdec((int) $dechex);
             $is_dir = true;
         }
 
@@ -80,9 +82,9 @@ trait WatchTrait
             // File or folder path
             $file_path = $this->track_watches[$event_detail['wd']].'/'.$event_detail['name'];
             $path_options = $this->path_options[$event_detail['wd']];
-            $this->addLog(sprintf('%s event: [%s] %s', $is_dir ? 'Folder' : 'File', $event_detail['mask'], $file_path));
+            $this->addLog(sprintf('%s event: [%s] %s', $is_dir ? 'Folder' : 'File', $event_id, $file_path));
             if ($is_dir) {
-                switch ($event_detail['mask']) {
+                switch ($event_id) {
                     // New folder created.
                     case IN_CREATE:
                     // New folder was moved, so need to watch new folders.
@@ -112,15 +114,13 @@ trait WatchTrait
                 }
             }
 
-            // Run command for all these file events.
-            switch ($event_detail['mask']) {
+            // Run command for this change.
+            switch ($event_id) {
                 case IN_CLOSE_WRITE:
                 case IN_MOVED_TO:
-                    $this->runCommand($file_path);
-                    break;
                 case IN_MOVED_FROM:
                 case IN_DELETE:
-                    $this->runCommand($file_path, true);
+                    $this->runCommand($file_path, $event_id);
                     break;
             }
         }
@@ -129,13 +129,28 @@ trait WatchTrait
     /**
      * Run the given provided command.
      *
-     * @param string $file_path
+     * @param string  $file_path
+     * @param string  $event_id
+     * @param boolean $delete
      *
      * @return void
      */
-    private function runCommand($file_path, $delete = false)
+    private function runCommand($file_path, $event_id)
     {
+        // Run command for all these file events.
+        switch ($event_id) {
+            case IN_CLOSE_WRITE:
+            case IN_MOVED_TO:
+                $delete = false;
+                break;
+            case IN_MOVED_FROM:
+            case IN_DELETE:
+                $delete = true;
+                break;
+        }
+
         $find_replace = [
+            'event-id'     => $event_id,
             'file-path'    => $file_path,
             'root-path'    => $this->root_path,
             'file-removed' => $delete ? 1 : 0,
