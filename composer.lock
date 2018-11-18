@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a0564864f0244c96c18925d89210810",
+    "content-hash": "533753bcb67949815acb7729289a8473",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -770,16 +770,16 @@
         },
         {
             "name": "laravel-zero/foundation",
-            "version": "v5.7.9",
+            "version": "v5.7.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-zero/foundation.git",
-                "reference": "419e1c7edc85983e495349799c8713361c3eb159"
+                "reference": "cb6bc0478cd615a61858444371357c71114e21a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/foundation/zipball/419e1c7edc85983e495349799c8713361c3eb159",
-                "reference": "419e1c7edc85983e495349799c8713361c3eb159",
+                "url": "https://api.github.com/repos/laravel-zero/foundation/zipball/cb6bc0478cd615a61858444371357c71114e21a3",
+                "reference": "cb6bc0478cd615a61858444371357c71114e21a3",
                 "shasum": ""
             },
             "require": {
@@ -803,7 +803,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-10-14T15:11:29+00:00"
+            "time": "2018-11-18T21:59:02+00:00"
         },
         {
             "name": "laravel-zero/framework",
