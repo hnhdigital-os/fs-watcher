@@ -13,7 +13,7 @@ trait ProcessesTrait
      */
     private function processListPath()
     {
-        return $this->getWorkingDirectory('.active_folder_watcher.yml');
+        return $this->getDefaultWorkingDirectory('watchers.yml');
     }
 
     /**

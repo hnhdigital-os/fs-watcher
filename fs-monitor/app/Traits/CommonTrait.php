@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Symfony\Component\Yaml\Yaml;
+
 trait CommonTrait
 {
     /**
@@ -15,6 +17,13 @@ trait CommonTrait
             $this->bigError('You need to install PECL inotify to be able to use watcher.');
 
             exit(1);
+        }
+
+        $this->getDefaultWorkingDirectory('');
+
+        // Just in case it doesn't exist.
+        if ($_SERVER['argv'][1] != 'config') {
+            $this->getUserWorkingDirectory('');
         }
     }
     
@@ -167,7 +176,7 @@ trait CommonTrait
      */
     private function configPath()
     {
-        return $this->getWorkingDirectory('config.yml');
+        return $this->getDefaultWorkingDirectory('config.yml');
     }
 
     /**
@@ -178,10 +187,10 @@ trait CommonTrait
     private function logPath($pid = 0)
     {
         if (empty($pid)) {
-            return $this->getWorkingDirectory('wp-monitor.log');
+            return $this->getUserWorkingDirectory('logs/wp-monitor.log');
         }
 
-        return $this->getWorkingDirectory('pid/'.$pid.'.log');
+        return $this->getUserWorkingDirectory('logs/pid/'.$pid.'.log');
     }
 
     /**
@@ -191,24 +200,98 @@ trait CommonTrait
      *
      * @return string
      */
-    private function getWorkingDirectory($file_name)
+    private function getUserWorkingDirectory($file_name)
+    {
+        if (empty(config('user.working-directory'))
+            || config('user.working-directory') == 'default') {
+            return $this->getDefaultWorkingDirectory($file_name);
+        }
+
+        if (!empty(config('user.working-directory'))) {
+            $path = config('user.working-directory');
+
+            if (!file_exists($path)) {
+                $this->bigError(sprintf('Supplied working directory %s does not exist.', $path));
+
+                exit();
+            }
+        }
+
+        $path .= '/'.$file_name;
+
+        $this->checkWorkingDirectory($path);
+
+        return $path;
+    }
+
+    /**
+     * Get default working directory.
+     *
+     * @return string
+     */
+    private function getDefaultWorkingDirectory($file_name = '')
     {
         $path = env('XDG_RUNTIME_DIR') ? env('XDG_RUNTIME_DIR') : $this->getUserHome();
         $path = empty($path) ? $_SERVER['TMPDIR'] : $path;
         $path .= '/fs-monitor';
-        $path .= '/'.$file_name;
 
-        // Create working directory.
-        if (!file_exists(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
-        }
-
-        // Create empty file.
-        if (!file_exists($path)) {
-            file_put_contents($path, '');
+        if (!empty($file_name)) {
+            $path .= '/'.$file_name;
+            $this->checkWorkingDirectory($path);
+        } else {
+            $this->checkWorkingDirectory($path, false);
         }
 
         return $path;
     }
 
+    /**
+     * Check working directory.
+     *
+     * @return string
+     */
+    private function checkWorkingDirectory($path, $check_file = true)
+    {
+        // Create working directory.
+        if (!file_exists($dirname_path = $check_file ? dirname($path) : $path)) {
+            mkdir($dirname_path, 0755, true);
+        }
+
+        // Create empty file.
+        if ($check_file && !file_exists($path)) {
+            file_put_contents($path, '');
+        }
+    }
+
+    /**
+     * Load user config.
+     *
+     * @return array
+     */
+    private function loadUserConfig()
+    {
+        $user_config = $this->configPath();
+
+        try {
+            $result = Yaml::parse(file_get_contents($user_config));
+
+            return is_array($result) ? $result : [];
+        } catch (ParseException $e) {
+            file_put_contents($user_config, '');
+
+            return [];
+        }
+    }
+
+    /**
+     * Save user config.
+     *
+     * @return array
+     */
+    private function saveUserConfig($data)
+    {
+        $user_config = $this->configPath();
+
+        file_put_contents($user_config, Yaml::dump($data));
+    }
 }
