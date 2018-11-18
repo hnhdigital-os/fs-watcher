@@ -13,7 +13,7 @@ ROOT="$( cd "$( dirname "$0" )" && cd ./ && pwd )"
 
 # Standard config.
 BUILD="build-src"
-BUILD_FILE="builds/fs-watcher"
+BUILD_FILE="fs-watcher"
 REPO="git@github.com:hnhdigital-os/fs-watcher.git"
 BRANCH="master"
 COMPOSER="composer"
@@ -70,10 +70,10 @@ if [ "dev" == "${MODE}" ]; then
     mkdir -p "${ROOT}/${TARGET}/download/snapshot/"
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${VERSION} && \
-    touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILD_FILE}" && \
+    touch --date="`git log -n1 --pretty=%ci HEAD`" "builds/${BUILD_FILE}" && \
     git reset --hard -q ${VERSION} && \
     echo "${VERSION}" > "${ROOT}/${TARGET}/snapshot_new" && \
-    mv "${BUILD_FILE}" "${ROOT}/${TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}" && \
+    mv "builds/${BUILD_FILE}" "${ROOT}/${TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}" && \
     mv "${ROOT}/${TARGET}/snapshot_new" "${ROOT}/${TARGET}/snapshot" && \
     cp -r "${ROOT}/etc" "${ROOT}/${TARGET_PRIVATE}/download/snapshot"
   fi
@@ -87,9 +87,9 @@ if [ "prod" == "${MODE}" ]; then
       git checkout ${VERSION} -q && \
       ${COMPOSER} install -q --no-dev && \
       bin/compile ${VERSION} && \
-      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${BUILD_FILE}" && \
+      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "builds/${BUILD_FILE}" && \
       git reset --hard -q ${VERSION} && \
-      mv "${BUILD_FILE}" "${ROOT}/${TARGET}/download/${VERSION}/${BUILD_FILE}"
+      mv "builds/${BUILD_FILE}" "${ROOT}/${TARGET}/download/${VERSION}/${BUILD_FILE}"
       echo "${TARGET}/download/${VERSION}/${BUILD_FILE} has been built"
     fi
   done
