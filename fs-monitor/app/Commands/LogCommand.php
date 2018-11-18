@@ -17,7 +17,9 @@ class LogCommand extends Command
      * @var string
      */
     protected $signature = 'watch:log
-                            {pid : Specify a process PID to watch}';
+                            {pid? : Specify a process PID to watch}
+                            {--where : Show where logs are going}
+                            {--clear : Clear the logs}';
 
     /**
      * The description of the command.
@@ -33,6 +35,18 @@ class LogCommand extends Command
      */
     public function handle()
     {
-       return $this->logForProcess($this->argument('pid'));
+        if ($this->option('where')) {
+            $this->bigInfo($this->getWorkingDirectory(''));
+
+            return;
+        }
+
+        if ($this->option('clear')) {
+            $this->clearLog();
+
+            return;
+        }
+
+       return $this->getLog($this->argument('pid'));
     }
 }

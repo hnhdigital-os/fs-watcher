@@ -156,11 +156,11 @@ trait ProcessesTrait
             $this->line('');
             $this->line('You can view a processes log by running:');
             $this->line('');
-            $this->line('   \'watch:log --pid=[<pid>]\'');
+            $this->line('   \'watch:log [<pid>]\'');
             $this->line('');
             $this->line('You can kill a specific or all processes by running the following:');
             $this->line('');
-            $this->line('   \'watch:kill --pid=[<pid>|all]\'');
+            $this->line('   \'watch:kill [<pid>|all]\'');
             $this->line('');
 
             return;
@@ -296,42 +296,11 @@ trait ProcessesTrait
                 $this->bigInfo('Process has been killed.');
             }
 
+            $this->deleteLog($pid, $output);
+
             return 0;
         }
 
         $this->bigError('Supplied PID did not match.');
     }
-
-    /**
-     * Log for a specific process.
-     *
-     * @param int|string $pid
-     *
-     * @return void
-     */
-    private function logForProcess($pid)
-    {
-        $log_path = $this->logPath();
-
-        $size = 0;
-
-        while (true) {
-            clearstatcache();
-            $current_size = filesize($log_path);
-            if ($size == $current_size) {
-                usleep(10000);
-                continue;
-            }
-            $file_handle = fopen($log_path, 'r');
-            fseek($file_handle, $size);
-            while ($line = fgets($file_handle)) {
-                if ($pid === 'all' || stripos($line, '<'.$pid.'>') !== false) {
-                    $this->line(trim($line));
-                }
-            }
-            fclose($file_handle);
-            $size = $current_size;
-        }
-    }
-
 }
