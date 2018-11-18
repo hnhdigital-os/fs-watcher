@@ -74,8 +74,7 @@ if [ "dev" == "${MODE}" ]; then
     git reset --hard -q ${VERSION} && \
     echo "${VERSION}" > "${ROOT}/${TARGET}/snapshot_new" && \
     mv "builds/${BUILD_FILE}" "${ROOT}/${TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}" && \
-    mv "${ROOT}/${TARGET}/snapshot_new" "${ROOT}/${TARGET}/snapshot" && \
-    cp -r "${ROOT}/etc" "${ROOT}/${TARGET_PRIVATE}/download/snapshot"
+    mv "${ROOT}/${TARGET}/snapshot_new" "${ROOT}/${TARGET}/snapshot"
   fi
 fi
 
