@@ -17,7 +17,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Version
+    | Application Release & Version
     |--------------------------------------------------------------------------
     |
     | This value determines the "version" your application is currently running
@@ -26,7 +26,9 @@ return [
     |
     */
 
-    'version' => app('git.version'),
+    'version' => 'REPO-VERSION',
+
+    'release' => 'REPO-RELEASE',
 
     /*
     |--------------------------------------------------------------------------
