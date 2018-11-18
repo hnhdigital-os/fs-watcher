@@ -4,7 +4,6 @@ namespace App\Commands;
 
 use App\Traits\CommonTrait;
 use App\Traits\WatchTrait;
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
 class WatchCommand extends Command

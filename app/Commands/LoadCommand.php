@@ -4,7 +4,6 @@ namespace App\Commands;
 
 use App\Traits\CommonTrait;
 use App\Traits\ProcessesTrait;
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
