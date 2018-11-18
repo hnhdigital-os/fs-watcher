@@ -13,6 +13,7 @@ ROOT="$( cd "$( dirname "$0" )" && cd ./ && pwd )"
 
 # Standard config.
 BUILD="build-src"
+BUILD_FILE="builds/fs-watcher"
 REPO="git@github.com:hnhdigital-os/fs-watcher.git"
 BRANCH="master"
 COMPOSER="composer"
@@ -72,7 +73,7 @@ if [ "dev" == "${MODE}" ]; then
     touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILD_FILE}" && \
     git reset --hard -q ${VERSION} && \
     echo "${VERSION}" > "${ROOT}/${TARGET}/snapshot_new" && \
-    mv "${BUILD_FILE}${BUILD_EXT}" "${ROOT}/${TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}${BUILD_EXT}" && \
+    mv "${BUILD_FILE}" "${ROOT}/${TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}" && \
     mv "${ROOT}/${TARGET}/snapshot_new" "${ROOT}/${TARGET}/snapshot" && \
     cp -r "${ROOT}/etc" "${ROOT}/${TARGET_PRIVATE}/download/snapshot"
   fi
@@ -88,7 +89,7 @@ if [ "prod" == "${MODE}" ]; then
       bin/compile ${VERSION} && \
       touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${BUILD_FILE}" && \
       git reset --hard -q ${VERSION} && \
-      mv "${BUILD_FILE}${BUILD_EXT}" "${ROOT}/${TARGET}/download/${VERSION}/${BUILD_FILE}${BUILD_EXT}"
+      mv "${BUILD_FILE}" "${ROOT}/${TARGET}/download/${VERSION}/${BUILD_FILE}"
       echo "${TARGET}/download/${VERSION}/${BUILD_FILE} has been built"
     fi
   done
