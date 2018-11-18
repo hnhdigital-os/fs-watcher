@@ -35,7 +35,7 @@ if [ "${MODE}" != "prod" ] &&  [ "${MODE}" != "dev" ]; then
   exit 1
 fi
 
-cd "${TARGET}" && git pull
+cd "${ROOT}/${TARGET}" && git pull
 
 MODE_TARGET="${TARGET}"
 
@@ -110,8 +110,8 @@ fi
 
 read -r -d '' versions << EOM
 {
-  "stable": {"path": "/download/${STABLE_BUILD}", "version": "${STABLE_VERSION}", "min-php": 70000},
-  "snapshot": {"path": "/download/snapshot/${BUILD_FILE}-${SNAPSHOT_VERSION}${BUILD_EXT}", "version": "${SNAPSHOT_VERSION}", "min-php": 70000}
+  "stable": {"path": "/download/${STABLE_BUILD}", "version": "${STABLE_VERSION}", "min-php": 71300},
+  "snapshot": {"path": "/download/snapshot/${BUILD_FILE}-${SNAPSHOT_VERSION}${BUILD_EXT}", "version": "${SNAPSHOT_VERSION}", "min-php": 71300}
 }
 EOM
 
@@ -142,5 +142,5 @@ cat "${TEMP_CHECKSUM_FILE}" > "${CHECKSUM_FILE}"
 
 unlink "${TEMP_CHECKSUM_FILE}"
 
-cd "${TARGET}" && git add . && git commit -m "Added compilied ${SNAPSHOT_VERSION} binary" && git push
+cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${SNAPSHOT_VERSION} binary" && git push
 
