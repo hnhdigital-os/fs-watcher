@@ -245,7 +245,7 @@ trait CommonTrait
     {
         $path = env('XDG_RUNTIME_DIR') ? env('XDG_RUNTIME_DIR') : $this->getUserHome();
         $path = empty($path) ? $_SERVER['TMPDIR'] : $path;
-        $path .= '/fs-monitor';
+        $path .= '/'.config('app.directory');
 
         if (!empty($file_name)) {
             $path .= '/'.$file_name;

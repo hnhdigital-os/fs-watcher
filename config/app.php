@@ -17,17 +17,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Release & Version
+    | Directory Name
     |--------------------------------------------------------------------------
-    |
-    | This value determines the "version" your application is currently running
-    | in. You may want to follow the "Semantic Versioning" - Given a version
-    | number MAJOR.MINOR.PATCH when an update happens: https://semver.org.
-    |
+    */
+    'directory' => 'fs-watcher',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
     */
 
     'version' => 'REPO-VERSION',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Release
+    |--------------------------------------------------------------------------
+    */
     'release' => 'REPO-RELEASE',
 
     /*
