@@ -258,6 +258,26 @@ trait CommonTrait
     }
 
     /**
+     * Return the user's home directory.
+     */
+    private function getUserHome()
+    {
+        // Linux home directory
+        $home = getenv('HOME');
+
+        if (!empty($home)) {
+            $home = rtrim($home, '/');
+        }
+
+        // Windows home directory
+        elseif (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
+            $home = rtrim($_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'], '\\/');
+        }
+
+        return empty($home) ? null : $home;
+    }
+
+    /**
      * Check working directory.
      *
      * @return string
