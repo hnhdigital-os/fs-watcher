@@ -65,6 +65,8 @@ fi
 
 git submodule update --remote
 
+SNAPSHOT_VERSION=""
+
 # create latest dev build
 if [ "dev" == "${MODE}" ]; then
   VERSION=`git log --pretty="%H" -n1 HEAD`
@@ -79,6 +81,8 @@ if [ "dev" == "${MODE}" ]; then
     echo "${VERSION}" > "${ROOT}/${MODE_TARGET}/snapshot_new" && \
     mv "builds/${BUILD_FILE}" "${ROOT}/${MODE_TARGET}/download/snapshot/${BUILD_FILE}-${VERSION}" && \
     mv "${ROOT}/${MODE_TARGET}/snapshot_new" "${ROOT}/${MODE_TARGET}/snapshot"
+
+    SNAPSHOT_VERSION=$(head -c40 "${ROOT}/${MODE_TARGET}/snapshot")
   fi
 fi
 
@@ -98,12 +102,10 @@ if [ "prod" == "${MODE}" ]; then
   done
 fi
 
-SNAPSHOT_VERSION=$(head -c40 "${ROOT}/${MODE_TARGET}/snapshot")
-
 STABLE_VERSION=$(ls "${ROOT}/${MODE_TARGET}/download" --ignore snapshot | grep -E '^[0-9.]+$' | sort -r -V | head -1)
 STABLE_BUILD="${STABLE_VERSION}/${BUILD_FILE}"
 
-if [ "" == "$STABLE_VERSION" ]; then
+if [ [ "" == "$STABLE_VERSION" ] && [ "dev" == "${MODE}" ] ]; then
   STABLE_VERSION="${SNAPSHOT_VERSION}"
   STABLE_BUILD="snapshot/${BUILD_FILE}-${SNAPSHOT_VERSION}"
 fi
@@ -142,5 +144,5 @@ cat "${TEMP_CHECKSUM_FILE}" > "${CHECKSUM_FILE}"
 
 unlink "${TEMP_CHECKSUM_FILE}"
 
-cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${SNAPSHOT_VERSION} binary" && git push
+cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${VERSION} binary" && git push
 
