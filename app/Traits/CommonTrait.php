@@ -111,14 +111,19 @@ trait CommonTrait
             $pid = getmypid();
         }
 
+        $log_text = sprintf('[%s] <%s> %s', date('Y-m-d H:i:s'), $pid, $text);
+        $this->line($log_text);
+
+        if (config('user.disable-logging')) {
+            return;
+        }
+
         $log_path = $this->logPath($pid);
         $file_handle = fopen($log_path, 'a+');
-        $log_text = sprintf('[%s] <%s> %s', date('Y-m-d H:i:s'), $pid, $text);
 
         fwrite($file_handle, $log_text."\n");
         fclose($file_handle);
 
-        $this->line($log_text);
     }
 
     /**
@@ -126,7 +131,7 @@ trait CommonTrait
      *
      * @return void
      */
-    private function clearLog()
+    private function clearLog($pid)
     {
         $log_path = $this->logPath($pid);
         file_put_contents($log_path, '');
@@ -158,6 +163,12 @@ trait CommonTrait
      */
     private function getLog($pid)
     {
+        if (config('user.disable-logging')) {
+            $this->bigInfo('Logging was disabled.');
+
+            return;
+        }
+
         $log_path = $this->logPath($pid);
 
         $size = 0;

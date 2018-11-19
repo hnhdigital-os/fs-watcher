@@ -41,7 +41,7 @@ class LogCommand extends Command
         }
 
         if ($this->option('clear')) {
-            $this->clearLog();
+            $this->clearLog($this->argument('pid'));
 
             return;
         }

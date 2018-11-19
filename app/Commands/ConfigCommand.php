@@ -34,7 +34,8 @@ class ConfigCommand extends Command
      * @var array
      */
     private $config_keys = [
-        'working-directory'
+        'working-directory',
+        'disable-logging',
     ];
 
     /**
@@ -98,7 +99,7 @@ class ConfigCommand extends Command
      */
     private function setConfig($key, $value)
     {
-        if (empty($value)) {
+        if (empty($value) && strlen($value) == 0) {
             return;
         }
 
@@ -146,8 +147,10 @@ class ConfigCommand extends Command
 
                 return true;
             }
+
+            return false;
         }
 
-        return false;
+        return true;
     }
 }
