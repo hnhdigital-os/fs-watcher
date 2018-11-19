@@ -146,3 +146,4 @@ unlink "${TEMP_CHECKSUM_FILE}"
 
 cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${VERSION} binary" && git push
 
+cd "${ROOT}" && git add "${ROOT}/${TARGET}" ** git commit -m "Update ${TARGET} with latest commit" && git push
