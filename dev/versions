@@ -1,4 +1,4 @@
 {
-  "stable": {"path": "/download/snapshot/fs-watcher-0a2b8ef9fe78732cc19feee1730c143381266d06", "version": "0a2b8ef9fe78732cc19feee1730c143381266d06", "min-php": 71300},
-  "snapshot": {"path": "/download/snapshot/fs-watcher-0a2b8ef9fe78732cc19feee1730c143381266d06", "version": "0a2b8ef9fe78732cc19feee1730c143381266d06", "min-php": 71300}
+  "stable": {"path": "/download//fs-watcher", "version": "", "min-php": 71300},
+  "snapshot": {"path": "/download/snapshot/fs-watcher-a9cd4e7df5914c61dfa7a2f1ed936cdd9dd6a2cf", "version": "a9cd4e7df5914c61dfa7a2f1ed936cdd9dd6a2cf", "min-php": 71300}
 }
