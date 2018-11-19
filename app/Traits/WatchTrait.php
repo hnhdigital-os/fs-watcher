@@ -151,8 +151,8 @@ trait WatchTrait
 
         $find_replace = [
             'event-id'     => $event_id,
-            'file-path'    => $file_path,
-            'root-path'    => $this->root_path,
+            'file-path'    => '"'.$file_path.'"',
+            'root-path'    => '"'.$this->root_path.'"',
             'file-removed' => $delete ? 1 : 0,
         ];
 
