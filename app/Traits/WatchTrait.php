@@ -116,10 +116,11 @@ trait WatchTrait
 
             // Run command for this change.
             switch ($event_id) {
-                case IN_CLOSE_WRITE:
-                case IN_MOVED_TO:
-                case IN_MOVED_FROM:
                 case IN_DELETE:
+                case IN_CLOSE_WRITE:
+                case IN_CREATE:
+                case IN_MOVED_FROM:
+                case IN_MOVED_TO:
                     $this->runCommand($file_path, $event_id);
                     break;
             }
@@ -141,6 +142,7 @@ trait WatchTrait
         switch ($event_id) {
             case IN_CLOSE_WRITE:
             case IN_MOVED_TO:
+            case IN_CREATE:
                 $delete = false;
                 break;
             case IN_MOVED_FROM:
