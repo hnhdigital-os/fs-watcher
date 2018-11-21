@@ -1,4 +1,4 @@
 {
-  "stable": {"path": "/download/1.0.6/fs-watcher", "version": "1.0.6", "min-php": 71300},
+  "stable": {"path": "/download/1.0.7/fs-watcher", "version": "1.0.7", "min-php": 71300},
   "snapshot": {"path": "/download/snapshot/fs-watcher-", "version": "", "min-php": 71300}
 }
