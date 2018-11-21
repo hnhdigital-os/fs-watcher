@@ -5,6 +5,32 @@ namespace App\Traits;
 trait WatchTrait
 {
     /**
+     * IN_ACCESS = 1
+     * IN_MODIFY = 2
+     * IN_ATTRIB = 4
+     * IN_CLOSE_WRITE = 8
+     * IN_CLOSE_NOWRITE = 16
+     * IN_OPEN = 32
+     * IN_MOVED_FROM = 64
+     * IN_MOVED_TO = 128
+     * IN_CREATE = 256
+     * IN_DELETE = 512
+     * IN_DELETE_SELF = 1024
+     * IN_MOVE_SELF = 2048
+     * IN_UNMOUNT = 8192
+     * IN_Q_OVERFLOW = 16384
+     * IN_IGNORED = 32768
+     * IN_CLOSE = 24
+     * IN_MOVE = 192
+     * IN_ALL_EVENTS = 4095
+     * IN_ONLYDIR = 16777216
+     * IN_DONT_FOLLOW = 33554432
+     * IN_MASK_ADD = 536870912
+     * IN_ISDIR = 1073741824
+     * IN_ONESHOT = 2147483648
+     */
+
+    /**
      * Constants for what we need to be notified about.
      *
      * @var array
