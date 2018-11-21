@@ -50,7 +50,7 @@ trait ProcessesTrait
 
         // Default arguments.
         if (empty($script_arguments)) {
-            $script_arguments = '{{root-path}} {{file-path}} {{event-id}} {{file-removed}}';
+            $script_arguments = '{{root-path}} {{file-path}} {{event-id}}';
         }
 
         $command_hash = $this->getCommandHash($directory_path, $binary, $script_arguments);

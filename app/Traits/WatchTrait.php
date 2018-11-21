@@ -114,48 +114,25 @@ trait WatchTrait
                 }
             }
 
-            // Run command for this change.
-            switch ($event_id) {
-                case IN_DELETE:
-                case IN_CLOSE_WRITE:
-                case IN_CREATE:
-                case IN_MOVED_FROM:
-                case IN_MOVED_TO:
-                    $this->runCommand($file_path, $event_id);
-                    break;
-            }
+            // Run the specified command.
+            $this->runCommand($file_path, $event_id);
         }
     }
 
     /**
      * Run the given provided command.
      *
-     * @param string  $file_path
-     * @param string  $event_id
-     * @param boolean $delete
+     * @param string $file_path
+     * @param string $event_id
      *
      * @return void
      */
     private function runCommand($file_path, $event_id)
     {
-        // Run command for all these file events.
-        switch ($event_id) {
-            case IN_CLOSE_WRITE:
-            case IN_MOVED_TO:
-            case IN_CREATE:
-                $delete = false;
-                break;
-            case IN_MOVED_FROM:
-            case IN_DELETE:
-                $delete = true;
-                break;
-        }
-
         $find_replace = [
-            'event-id'     => $event_id,
-            'file-path'    => '"'.$file_path.'"',
-            'root-path'    => '"'.$this->root_path.'"',
-            'file-removed' => $delete ? 1 : 0,
+            'event-id'  => $event_id,
+            'file-path' => '"'.$file_path.'"',
+            'root-path' => '"'.$this->root_path.'"',
         ];
 
         $find_values = array_map(function ($key) {
