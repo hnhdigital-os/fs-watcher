@@ -1,4 +1,3 @@
 {
-  "stable": {"path": "/download//fs-watcher", "version": "", "min-php": 71300},
-  "snapshot": {"path": "/download/snapshot/fs-watcher-a9cd4e7df5914c61dfa7a2f1ed936cdd9dd6a2cf", "version": "a9cd4e7df5914c61dfa7a2f1ed936cdd9dd6a2cf", "min-php": 71300}
+  "d5d144194e0735a26681d69d3e81d044448d7205": {"path": "/download/d5d144194e0735a26681d69d3e81d044448d7205/mysql-helper"} 
 }
