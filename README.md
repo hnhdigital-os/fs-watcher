@@ -21,6 +21,42 @@ This tool provides a self-update mechanism. Simply run the self-update command.
 
 `fs-watcher self-update`
 
+## How to use
+
+```
+USAGE: fs-watcher <command> [options] [arguments]
+  config           <set|get|reset> [key] [value]
+                   Manage the configuration for this utility.
+
+  self-update      Check if there is a new version and update.
+  self-update      [--tag=?]
+                   Update this binary to a specific tagged release.
+  self-update      [--check-release=?]
+                   Returns the current binary version.
+  watch:now        [watch-path] [binary-path] [--script-arguments=""]
+                   Specify the path to watch, when a file change is detected
+                   call the specified binary at the path with the specific script
+                   arguments.
+  watch:background [watch-path] [binary-path] [--script-arguments=""]
+                   Runs process in the background. Specify the path to watch,
+                   when a file change is detected call the specified binary
+                   at the path with the specific script arguments.
+  watch:load       Load watchers from a config file.
+  watch:list       List all current watchers.
+  watch:kill       [pid]
+                   Kill a specific process ID for a current watcher.
+  watch:kill all   Kills all the watchers.
+  watch:log        [pid]
+                   View the current log for a specific process ID.
+  watch:log        [--where]
+                   Returns the path of the log files.
+  watch:log        [pid] [--clear]
+                   Clears the logs for a specifici process ID.
+  watch:log        [--clear]
+                   Clears all the logs.
+
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/fs-watcher/blob/master/CONTRIBUTING.md) for details.
