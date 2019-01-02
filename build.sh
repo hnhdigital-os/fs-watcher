@@ -85,12 +85,8 @@ if [ "stable" != "${MODE}" ]; then
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${MODE} ${VERSION} && \
     touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
-    git reset --hard -q ${VERSION} && \
-    echo "${VERSION}" > "${PUBLIC_WEB_ROOT}/latest_new" && \
     mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
-    mv "${PUBLIC_WEB_ROOT}/latest_new" "${PUBLIC_WEB_ROOT}/latest"
-
-    sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
+    sha256sum "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/${BUILD_FILE}"  | awk '{ print $1 }' > "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/sha256"
 
     LATEST_VERSION="${VERSION}"
     LATEST_BUILD="${VERSION}/${BUILD_FILE}"
@@ -108,9 +104,8 @@ if [ "stable" == "${MODE}" ]; then
       bin/compile ${MODE}  ${VERSION} && \
       touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
       git reset --hard -q ${VERSION} && \
-      mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}"
-
-      sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
+      mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
+      sha256sum "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/${BUILD_FILE}"  | awk '{ print $1 }' > "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/sha256"
 
       echo "${MODE_TARGET}/download/${VERSION}/${BUILD_FILE} has been built"
     fi
