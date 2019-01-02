@@ -118,7 +118,7 @@ echo "${LATEST_VERSION}" > "${PUBLIC_WEB_ROOT}/latest"
 versions_contents="{\n"
 
 while IFS= read -r -d "|" VERSION; do
-  versions_contents="${versions_contents}  \"${VERSION}\": {\"path\": \"/download/${VERSION}/fs-watcher\"},\n"
+  versions_contents="${versions_contents}  \"${VERSION}\": \"/download/${VERSION}/fs-watcher\",\n"
 done <<< $(find "${PUBLIC_WEB_ROOT}/download" -maxdepth 1 -mindepth 1 -printf '%f|')
 
 versions_contents="${versions_contents}}"
