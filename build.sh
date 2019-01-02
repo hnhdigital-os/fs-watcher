@@ -49,6 +49,9 @@ if [ "" != "$3" ]; then
   BRANCH="$3"
 fi
 
+BUILDS_ROOT="${BUILDS_ROOT}/builds"
+PUBLIC_WEB_ROOT="${ROOT}/${MODE_TARGET}"
+
 # Create or update build.
 cd "${ROOT}"
 
@@ -58,7 +61,7 @@ if [ ! -d "${BUILD}/.git" ]; then
   git checkout "$BRANCH"
 else
   cd "${ROOT}/${BUILD}"
-  rm -rf "${BUILDS_ROOT}//"
+  rm -rf "${BUILDS_ROOT}"
   git checkout "$BRANCH"
   git fetch -p -P
   git pull
@@ -70,23 +73,20 @@ git submodule update --remote
 
 touch "${PUBLIC_WEB_ROOT}/latest"
 
-BUILDS_ROOT="${BUILDS_ROOT}/"
-PUBLIC_WEB_ROOT="${ROOT}/${MODE_TARGET}"
-
 # create latest dev build
 if [ "stable" != "${MODE}" ]; then
   VERSION=`git log --pretty="%H" -n1 HEAD`
 
   if [ ! -f "${PUBLIC_WEB_ROOT}/${VERSION}" -o "${VERSION}" != "`cat \"${PUBLIC_WEB_ROOT}/latest\"`" ]; then
-    rm -rf "${PUBLIC_WEB_ROOT}/download/"
+    rm -rf "${PUBLIC_WEB_ROOT}/download"
     mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}"
 
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${MODE} ${VERSION} && \
-    touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}//${BUILD_FILE}" && \
+    touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
     git reset --hard -q ${VERSION} && \
     echo "${VERSION}" > "${PUBLIC_WEB_ROOT}/latest_new" && \
-    mv "${BUILDS_ROOT}//${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
+    mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
     mv "${PUBLIC_WEB_ROOT}/latest_new" "${PUBLIC_WEB_ROOT}/latest"
 
     sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
