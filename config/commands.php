@@ -74,7 +74,8 @@ return [
     */
 
     'remove' => [
-        // ..
+        Illuminate\Console\Scheduling\ScheduleRunCommand::class,
+        Illuminate\Foundation\Console\VendorPublishCommand::class,
     ],
 
 ];
