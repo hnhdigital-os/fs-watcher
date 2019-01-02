@@ -2,15 +2,14 @@
 
 namespace App\Commands;
 
-use App\Traits\CommonTrait;
+use App\Shared\Command;
 use App\Traits\ProcessesTrait;
-use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadCommand extends Command
 {
-    use CommonTrait, ProcessesTrait;
+    use ProcessesTrait;
 
     /**
      * The signature of the command.

@@ -18,8 +18,11 @@
     "require": {
         "php": "^7.1.3",
         "ext-inotify": "*",
+        "hnhdigital-os/laravel-console-self-update": "dev-master",
+        "hnhdigital-os/php-cli-helper": "^1.0",
         "laravel-zero/framework": "5.7.*",
-        "symfony/yaml": "^4.1"
+        "symfony/yaml": "^4.2",
+        "vlucas/phpdotenv": "^2.5"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
@@ -42,6 +45,16 @@
         "platform": {
             "ext-posix": "0"
         }
+    },
+    "scripts": {
+        "test": [
+            "@phpunit",
+            "@phpcs",
+            "@phpmd"
+        ],
+        "phpunit": "phpunit",
+        "phpcs": "phpcs -p -s --standard=PSR2 ./app ./tests",
+        "phpmd": "phpmd ./app text phpmd.xml"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

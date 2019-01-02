@@ -2,13 +2,12 @@
 
 namespace App\Commands;
 
-use App\Traits\CommonTrait;
+use App\Shared\Command;
 use App\Traits\ProcessesTrait;
-use LaravelZero\Framework\Commands\Command;
 
 class KillCommand extends Command
 {
-    use CommonTrait, ProcessesTrait;
+    use ProcessesTrait;
 
     /**
      * The signature of the command.

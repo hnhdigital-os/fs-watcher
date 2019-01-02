@@ -4,3 +4,4 @@
 /.vagrant
 /build
 /build-src
+.env

@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\Traits\CommonTrait;
+use HnhDigital\CliHelper\CommandInternalsTrait;
+use HnhDigital\CliHelper\FileSystemTrait;
 use Illuminate\Support\ServiceProvider;
 
 class UserConfigServiceProvider extends ServiceProvider
 {
-    use CommonTrait;
+    use CommandInternalsTrait, FileSystemTrait;
 
     /**
      * Bootstrap any application services.
@@ -16,7 +17,7 @@ class UserConfigServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $user_config = $this->loadUserConfig();
+        $user_config = $this->loadYamlFile($this->getConfigPath('config.yml', true));
         $config = config('user');
 
         foreach ($user_config as $key => $value) {

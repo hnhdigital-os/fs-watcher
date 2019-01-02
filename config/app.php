@@ -28,14 +28,15 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'version' => 'REPO-VERSION',
+    'version' => 'RELEASE-VERSION',
 
     /*
     |--------------------------------------------------------------------------
-    | Application Release
+    | Update URL
     |--------------------------------------------------------------------------
     */
-    'release' => 'REPO-RELEASE',
+
+    'update-url' => config('UPDATE_URL', 'https://hnhdigital-os.github.io/fs-watcher'),
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +64,6 @@ return [
 
     'providers' => [
         App\Providers\AppServiceProvider::class,
-        App\Providers\LaravelConsoleSummaryServiceProvider::class,
         App\Providers\UserConfigServiceProvider::class,
     ],
 

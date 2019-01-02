@@ -2,14 +2,13 @@
 
 namespace App\Commands;
 
-use App\Traits\CommonTrait;
+use App\Shared\Command;
 use App\Traits\ProcessesTrait;
 use Illuminate\Support\Str;
-use LaravelZero\Framework\Commands\Command;
 
 class ConfigCommand extends Command
 {
-    use CommonTrait, ProcessesTrait;
+    use ProcessesTrait;
 
     /**
      * The signature of the command.
@@ -77,11 +76,11 @@ class ConfigCommand extends Command
         $config = config('user');
 
         if ($config['working-directory'] == 'default') {
-            $config['working-directory'] = $this->getDefaultWorkingDirectory();
+            $config['working-directory'] = $this->getConfigPath();
         }
 
-        $config['user-config-file'] = $this->getDefaultWorkingDirectory('config.yml');
-        $config['watcher-file'] = $this->getDefaultWorkingDirectory('watcher.yml');
+        $config['user-config-file'] = $this->getConfigFilePath();
+        $config['watcher-file'] = $this->getConfigPath('watcher.yml', true);
 
         return $config;
     }
@@ -91,7 +90,7 @@ class ConfigCommand extends Command
      */
     private function getConfig($key)
     {
-        $user_config = $this->loadUserConfig();
+        $user_config = $this->loadYamlFile($this->getConfigFilePath());
     }
 
     /**
@@ -114,14 +113,14 @@ class ConfigCommand extends Command
             return;
         }
 
-        $user_config = $this->loadUserConfig();
+        $user_config = $this->loadYamlFile($this->getConfigFilePath());
         if ($value == 'default') {
             unset($user_config[$key]);
         } else {
             $user_config[$key] = $value;
         }
 
-        $this->saveUserConfig($user_config);
+        $this->saveYamlFile($this->getConfigFilePath(), $user_config);
     }
 
     /**

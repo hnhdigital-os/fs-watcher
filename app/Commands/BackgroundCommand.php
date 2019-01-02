@@ -2,8 +2,8 @@
 
 namespace App\Commands;
 
+use App\Shared\Command;
 use App\Traits\WatchTrait;
-use LaravelZero\Framework\Commands\Command;
 
 class BackgroundCommand extends Command
 {

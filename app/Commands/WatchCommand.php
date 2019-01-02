@@ -2,13 +2,12 @@
 
 namespace App\Commands;
 
-use App\Traits\CommonTrait;
+use App\Shared\Command;
 use App\Traits\WatchTrait;
-use LaravelZero\Framework\Commands\Command;
 
 class WatchCommand extends Command
 {
-    use CommonTrait, WatchTrait;
+    use WatchTrait;
 
     /**
      * The signature of the command.
