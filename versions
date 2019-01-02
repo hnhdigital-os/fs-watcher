@@ -1,4 +1,11 @@
 {
-  "stable": {"path": "/download/1.0.8/fs-watcher", "version": "1.0.8", "min-php": 71300},
-  "snapshot": {"path": "/download/snapshot/fs-watcher-", "version": "", "min-php": 71300}
+  "1.0.7": {"path": "/download/1.0.7/fs-watcher"},
+  "1.0.8": {"path": "/download/1.0.8/fs-watcher"},
+  "1.0.2": {"path": "/download/1.0.2/fs-watcher"},
+  "1.0.1": {"path": "/download/1.0.1/fs-watcher"},
+  "1.0.6": {"path": "/download/1.0.6/fs-watcher"},
+  "1.0.3": {"path": "/download/1.0.3/fs-watcher"},
+  "1.0.5": {"path": "/download/1.0.5/fs-watcher"},
+  "1.0.4": {"path": "/download/1.0.4/fs-watcher"},
+  "1.0.0": {"path": "/download/1.0.0/fs-watcher"} 
 }
