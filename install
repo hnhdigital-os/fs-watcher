@@ -6,6 +6,10 @@ echo ""
 
 VERSION=$(curl -Ls https://hnhdigital-os.github.io/fs-watcher/latest)
 
+echo ""
+echo "Installing ${VERSION}..."
+echo ""
+
 sudo curl -o /usr/local/bin/fs-watcher "https://hnhdigital-os.github.io/fs-watcher/download/${VERSION}/fs-watcher" && sudo chmod 755 /usr/local/bin/fs-watcher
 
 /usr/local/bin/fs-watcher install
