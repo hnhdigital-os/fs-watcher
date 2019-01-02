@@ -120,7 +120,7 @@ echo "${LATEST_VERSION}" > "${ROOT}/${MODE_TARGET}/latest"
 versions_contents="{\n"
 
 while IFS= read -r -d "|" VERSION; do
-  versions_contents="${versions_contents}  \"${VERSION}\": {\"path\": \"/download/${VERSION}/mysql-helper\"},\n"
+  versions_contents="${versions_contents}  \"${VERSION}\": {\"path\": \"/download/${VERSION}/fs-watcher\"},\n"
 done <<< $(find "${ROOT}/${MODE_TARGET}/download" -maxdepth 1 -mindepth 1 -printf '%f|')
 
 versions_contents="${versions_contents}}"

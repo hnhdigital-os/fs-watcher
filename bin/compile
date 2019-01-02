@@ -9,6 +9,6 @@ echo "$RELEASE-$VERSION"
 
 sed -i s/RELEASE-VERSION/$RELEASE-$VERSION/g $DIR/../config/app.php
 
-./mysql-helper app:build
+./fs-watcher app:build
 
 sed -i s/$RELEASE-$VERSION/RELEASE-VERSION/g $DIR/../config/app.php
