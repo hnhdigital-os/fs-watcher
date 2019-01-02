@@ -77,6 +77,7 @@ if [ "stable" != "${MODE}" ]; then
 
   if [ ! -f "${ROOT}/${MODE_TARGET}/${VERSION}" -o "${VERSION}" != "`cat \"${ROOT}/${MODE_TARGET}/latest\"`" ]; then
     rm -rf "${ROOT}/${MODE_TARGET}/download/"
+    rm -rf "${ROOT}/${MODE_TARGET}/builds/"
     mkdir -p "${ROOT}/${MODE_TARGET}/download/${VERSION}/"
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${MODE} ${VERSION} && \
