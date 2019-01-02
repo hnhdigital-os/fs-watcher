@@ -81,10 +81,10 @@ if [ "stable" != "${MODE}" ]; then
     mkdir -p "${ROOT}/${MODE_TARGET}/download/${VERSION}/"
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${MODE} ${VERSION} && \
-    touch --date="`git log -n1 --pretty=%ci HEAD`" "${ROOT}/${MODE_TARGET}/builds/${BUILD_FILE}" && \
+    touch --date="`git log -n1 --pretty=%ci HEAD`" "${ROOT}/${BUILD}/builds/${BUILD_FILE}" && \
     git reset --hard -q ${VERSION} && \
     echo "${VERSION}" > "${ROOT}/${MODE_TARGET}/latest_new" && \
-    mv "${ROOT}/${MODE_TARGET}/builds/${BUILD_FILE}" "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" && \
+    mv "${ROOT}/${BUILD}/builds/${BUILD_FILE}" "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" && \
     mv "${ROOT}/${MODE_TARGET}/latest_new" "${ROOT}/${MODE_TARGET}/latest"
 
     sha256sum "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" >> "${ROOT}/${MODE_TARGET}/download/${VERSION}/sha256"
