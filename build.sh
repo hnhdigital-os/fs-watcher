@@ -106,9 +106,9 @@ if [ "stable" == "${MODE}" ]; then
       git checkout ${VERSION} -q && \
       ${COMPOSER} install -q --no-dev && \
       bin/compile ${MODE}  ${VERSION} && \
-      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${PUBLIC_WEB_ROOT}/builds/${BUILD_FILE}" && \
+      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
       git reset --hard -q ${VERSION} && \
-      mv "${PUBLIC_WEB_ROOT}/builds/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}"
+      mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}"
 
       sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
 
@@ -134,6 +134,6 @@ echo -e "${versions_contents}" > "${PUBLIC_WEB_ROOT}/versions"
 sed -i '1h;1!H;$!d;${s/.*//;x};s/\(.*\),/\1 /' "${PUBLIC_WEB_ROOT}/versions"
 
 if [ "${AUTO_COMMIT}" == "1" ]; then
-  cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${VERSION} binary" && git push
+  cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${LATEST_VERSION} binary" && git push
   cd "${ROOT}" && git add "public-web" && git commit -m "Update ${TARGET} with latest commit" && git push
 fi
