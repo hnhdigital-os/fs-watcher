@@ -49,7 +49,7 @@ if [ "" != "$3" ]; then
   BRANCH="$3"
 fi
 
-BUILDS_ROOT="${BUILDS_ROOT}/builds"
+BUILDS_ROOT="${ROOT}/${BUILD}/builds"
 PUBLIC_WEB_ROOT="${ROOT}/${MODE_TARGET}"
 
 # Create or update build.
