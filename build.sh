@@ -72,24 +72,28 @@ git submodule update --remote
 
 /bin/cp -f "${ROOT}/.env" "${ROOT}/${BUILD}/.env"
 
-touch "${PUBLIC_WEB_ROOT}/latest"
+# compile binary for specified version
+function compile_binary () {
+  local VERSION="$1"
+  ${COMPOSER} install -q --no-dev && \
+  bin/compile ${MODE} ${VERSION} && \
+  touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
+  mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
+  sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" | awk '{ print $1 }' > "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
+}
 
 # create latest dev build
 if [ "stable" != "${MODE}" ]; then
   VERSION=`git log --pretty="%H" -n1 HEAD`
 
   if [ ! -f "${PUBLIC_WEB_ROOT}/${VERSION}" -o "${VERSION}" != "`cat \"${PUBLIC_WEB_ROOT}/latest\"`" ]; then
+
     rm -rf "${PUBLIC_WEB_ROOT}/download"
     mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}"
 
-    ${COMPOSER} install -q --no-dev && \
-    bin/compile ${MODE} ${VERSION} && \
-    touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
-    mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
-    sha256sum "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/${BUILD_FILE}"  | awk '{ print $1 }' > "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/sha256"
+    compile_binary "${VERSION}"
 
     LATEST_VERSION="${VERSION}"
-    LATEST_BUILD="${VERSION}/${BUILD_FILE}"
   fi
 fi
 
@@ -100,19 +104,13 @@ if [ "stable" == "${MODE}" ]; then
       mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}/"
 
       git checkout ${VERSION} -q && \
-      ${COMPOSER} install -q --no-dev && \
-      bin/compile ${MODE}  ${VERSION} && \
-      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${BUILDS_ROOT}/${BUILD_FILE}" && \
-      git reset --hard -q ${VERSION} && \
-      mv "${BUILDS_ROOT}/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
-      sha256sum "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/${BUILD_FILE}"  | awk '{ print $1 }' > "${PUBLIC_WEB_ROOT}/download/${LATEST_VERSION}/sha256"
+      compile_binary "${VERSION}"
 
       echo "${MODE_TARGET}/download/${VERSION}/${BUILD_FILE} has been built"
     fi
   done
 
   LATEST_VERSION=$(ls "${PUBLIC_WEB_ROOT}/download" | grep -E '^[0-9.]+$' | sort -r -V | head -1)
-  LATEST_BUILD="${LATEST_VERSION}/${BUILD_FILE}"
 fi
 
 echo "${LATEST_VERSION}" > "${PUBLIC_WEB_ROOT}/latest"
