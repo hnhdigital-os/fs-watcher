@@ -26,7 +26,7 @@ MODE="tags"
 if [ "" != "$1" ]; then
   MODE="$1"
 else
-  echo "Mode is missing! [prod|**]"
+  echo "Mode is missing! [stable|**]"
   exit 1
 fi
 
@@ -65,6 +65,7 @@ else
   git checkout "$BRANCH"
   git fetch -p -P
   git pull
+  git reset --hard
 fi
 
 git submodule update --remote
@@ -97,7 +98,7 @@ if [ "stable" != "${MODE}" ]; then
 fi
 
 # create tagged releases
-if [ "prod" == "${MODE}" ]; then
+if [ "stable" == "${MODE}" ]; then
   for VERSION in `git tag`; do
     if [ ! -f "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" ]; then
       mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}/"
