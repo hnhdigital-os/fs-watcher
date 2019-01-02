@@ -58,7 +58,7 @@ if [ ! -d "${BUILD}/.git" ]; then
   git checkout "$BRANCH"
 else
   cd "${ROOT}/${BUILD}"
-  rm -rf "${ROOT}/${BUILD}/builds/"
+  rm -rf "${BUILDS_ROOT}//"
   git checkout "$BRANCH"
   git fetch -p -P
   git pull
@@ -68,26 +68,28 @@ git submodule update --remote
 
 /bin/cp -f "${ROOT}/.env" "${ROOT}/${BUILD}/.env"
 
-touch "${ROOT}/${MODE_TARGET}/latest"
+touch "${PUBLIC_WEB_ROOT}/latest"
 
-SNAPSHOT_VERSION=""
+BUILDS_ROOT="${BUILDS_ROOT}/"
+PUBLIC_WEB_ROOT="${ROOT}/${MODE_TARGET}"
 
 # create latest dev build
 if [ "stable" != "${MODE}" ]; then
   VERSION=`git log --pretty="%H" -n1 HEAD`
 
-  if [ ! -f "${ROOT}/${MODE_TARGET}/${VERSION}" -o "${VERSION}" != "`cat \"${ROOT}/${MODE_TARGET}/latest\"`" ]; then
-    rm -rf "${ROOT}/${MODE_TARGET}/download/"
-    mkdir -p "${ROOT}/${MODE_TARGET}/download/${VERSION}/"
+  if [ ! -f "${PUBLIC_WEB_ROOT}/${VERSION}" -o "${VERSION}" != "`cat \"${PUBLIC_WEB_ROOT}/latest\"`" ]; then
+    rm -rf "${PUBLIC_WEB_ROOT}/download/"
+    mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}"
+
     ${COMPOSER} install -q --no-dev && \
     bin/compile ${MODE} ${VERSION} && \
-    touch --date="`git log -n1 --pretty=%ci HEAD`" "${ROOT}/${BUILD}/builds/${BUILD_FILE}" && \
+    touch --date="`git log -n1 --pretty=%ci HEAD`" "${BUILDS_ROOT}//${BUILD_FILE}" && \
     git reset --hard -q ${VERSION} && \
-    echo "${VERSION}" > "${ROOT}/${MODE_TARGET}/latest_new" && \
-    mv "${ROOT}/${BUILD}/builds/${BUILD_FILE}" "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" && \
-    mv "${ROOT}/${MODE_TARGET}/latest_new" "${ROOT}/${MODE_TARGET}/latest"
+    echo "${VERSION}" > "${PUBLIC_WEB_ROOT}/latest_new" && \
+    mv "${BUILDS_ROOT}//${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" && \
+    mv "${PUBLIC_WEB_ROOT}/latest_new" "${PUBLIC_WEB_ROOT}/latest"
 
-    sha256sum "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" >> "${ROOT}/${MODE_TARGET}/download/${VERSION}/sha256"
+    sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
 
     LATEST_VERSION="${VERSION}"
     LATEST_BUILD="${VERSION}/${BUILD_FILE}"
@@ -97,37 +99,38 @@ fi
 # create tagged releases
 if [ "prod" == "${MODE}" ]; then
   for VERSION in `git tag`; do
-    if [ ! -f "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" ]; then
-      mkdir -p "${ROOT}/${MODE_TARGET}/download/${VERSION}/"
+    if [ ! -f "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" ]; then
+      mkdir -p "${PUBLIC_WEB_ROOT}/download/${VERSION}/"
+
       git checkout ${VERSION} -q && \
       ${COMPOSER} install -q --no-dev && \
       bin/compile ${MODE}  ${VERSION} && \
-      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${ROOT}/${MODE_TARGET}/builds/${BUILD_FILE}" && \
+      touch --date="`git log -n1 --pretty=%ci ${VERSION}`" "${PUBLIC_WEB_ROOT}/builds/${BUILD_FILE}" && \
       git reset --hard -q ${VERSION} && \
-      mv "${ROOT}/${MODE_TARGET}/builds/${BUILD_FILE}" "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}"
+      mv "${PUBLIC_WEB_ROOT}/builds/${BUILD_FILE}" "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}"
 
-      sha256sum "${ROOT}/${MODE_TARGET}/download/${VERSION}/${BUILD_FILE}" >> "${ROOT}/${MODE_TARGET}/download/${VERSION}/sha256"
+      sha256sum "${PUBLIC_WEB_ROOT}/download/${VERSION}/${BUILD_FILE}" >> "${PUBLIC_WEB_ROOT}/download/${VERSION}/sha256"
 
       echo "${MODE_TARGET}/download/${VERSION}/${BUILD_FILE} has been built"
     fi
   done
 
-  LATEST_VERSION=$(ls "${ROOT}/${MODE_TARGET}/download" | grep -E '^[0-9.]+$' | sort -r -V | head -1)
+  LATEST_VERSION=$(ls "${PUBLIC_WEB_ROOT}/download" | grep -E '^[0-9.]+$' | sort -r -V | head -1)
   LATEST_BUILD="${LATEST_VERSION}/${BUILD_FILE}"
 fi
 
-echo "${LATEST_VERSION}" > "${ROOT}/${MODE_TARGET}/latest"
+echo "${LATEST_VERSION}" > "${PUBLIC_WEB_ROOT}/latest"
 
 versions_contents="{\n"
 
 while IFS= read -r -d "|" VERSION; do
   versions_contents="${versions_contents}  \"${VERSION}\": {\"path\": \"/download/${VERSION}/fs-watcher\"},\n"
-done <<< $(find "${ROOT}/${MODE_TARGET}/download" -maxdepth 1 -mindepth 1 -printf '%f|')
+done <<< $(find "${PUBLIC_WEB_ROOT}/download" -maxdepth 1 -mindepth 1 -printf '%f|')
 
 versions_contents="${versions_contents}}"
 
-echo -e "${versions_contents}" > "${ROOT}/${MODE_TARGET}/versions"
-sed -i '1h;1!H;$!d;${s/.*//;x};s/\(.*\),/\1 /' "${ROOT}/${MODE_TARGET}/versions"
+echo -e "${versions_contents}" > "${PUBLIC_WEB_ROOT}/versions"
+sed -i '1h;1!H;$!d;${s/.*//;x};s/\(.*\),/\1 /' "${PUBLIC_WEB_ROOT}/versions"
 
 if [ "${AUTO_COMMIT}" == "1" ]; then
   cd "${ROOT}/${TARGET}" && git add . && git commit -m "Added compilied ${VERSION} binary" && git push
