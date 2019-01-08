@@ -57,6 +57,8 @@ USAGE: fs-watcher <command> [options] [arguments]
 
 ```
 
+### watch:now or watch:background
+
 For example, if we want to watch for changes in the `/some/folder/example` path and have all changes notified to the executable file `/some/bin/binary-file`.
 
 Note: This utility replaces the follwoing placeholders {{root-path}}, {{file-path}} and {{event-id}} in the script-arguments argument with values. Both path arguments do not need quotations as they will be added automatically.
@@ -67,7 +69,18 @@ On each file change in the given root folder, the following command execution wi
 
 `/some/bin/binary-file "/some/folder/example" "/some/folder/example/new-file" 256`
 
-Config file example
+### watch:load
+
+Instead of calling this utility for each folder you want to watch, you can use the `watch:load` command to load a YAML config file.
+
+This config file is in the format:
+
+```yml
+WATCH-PATH:
+ - BINARY-PATH: SCRIPT-ARGUMENTS
+```
+
+Example:
 
 ```yml
 /some/folder/example:
