@@ -57,6 +57,23 @@ USAGE: fs-watcher <command> [options] [arguments]
 
 ```
 
+For example, if we want to watch for changes in the `/some/folder/example` path and have all changes notified to the executable file `/some/bin/binary-file`.
+
+Note: This utility replaces the follwoing placeholders {{root-path}}, {{file-path}} and {{event-id}} in the script-arguments argument with values. Both path arguments do not need quotations as they will be added automatically.
+
+`fs-watcher watch:background /some/folder/example /some/bin/binary-file --script-arguments="{{root-path}} {{file-path}} {{event-id}}"`
+
+On each file change in the given root folder, the following command execution will occur:
+
+`/some/bin/binary-file "/some/folder/example" "/some/folder/example/new-file" 256`
+
+Config file example
+
+```yml
+/some/folder/example:
+ - /some/bin/binary-file: {{root-path}} {{file-path}} {{event-id}}
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/fs-watcher/blob/master/CONTRIBUTING.md) for details.
