@@ -25,7 +25,13 @@ class ConfigCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Show config';
+    public function getDescription()
+    {
+        $description = "<set|get|reset> [key] [value]\n";
+        $description .= "                   Manage the configuration for this utility.";
+
+        return $description;
+    }
 
     /**
      * Config keys.

@@ -22,7 +22,14 @@ class KillCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Kill one or all watchers';
+    public function getDescription()
+    {
+        $description = "[pid]\n";
+        $description .= "                   Kill a specific process ID for a current watcher.\n";
+        $description .= "  <info>watch:kill all</info>   Kills all the watchers.";
+
+        return $description;
+    }
 
     /**
      * Execute the console command.

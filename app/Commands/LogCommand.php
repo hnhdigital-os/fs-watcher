@@ -24,7 +24,19 @@ class LogCommand extends Command
      *
      * @var string
      */
-    protected $description = 'View the current log for a watcher';
+    public function getDescription()
+    {
+        $description = "[pid]\n";
+        $description .= "                   View the current log for a specific process ID.\n";
+        $description .= "  <info>watch:log</info>        [--where]\n";
+        $description .= "                   Returns the path of the log files.\n";
+        $description .= "  <info>watch:log</info>        [pid] [--clear]\n";
+        $description .= "                   Clears the logs for a specifici process ID.\n";
+        $description .= "  <info>watch:log</info>        [--clear]\n";
+        $description .= "                   Clears all the logs.";
+
+        return $description;
+    }
 
     /**
      * Execute the console command.

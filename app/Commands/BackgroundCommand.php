@@ -24,7 +24,15 @@ class BackgroundCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Run background watcher on the supplied path';
+    public function getDescription()
+    {
+        $description = "[watch-path] [binary-path] [--script-arguments=\"\"]\n";
+        $description .= "                   Runs process in the background. Specify the path to watch,\n";
+        $description .= "                   when a file change is detected this utility will call the\n";
+        $description .= "                   specified binary at the path with the specific script arguments.";
+
+        return $description;
+    }
 
     /**
      * Execute the console command.

@@ -35,12 +35,12 @@ USAGE: fs-watcher <command> [options] [arguments]
                    Returns the current binary version.
   watch:now        [watch-path] [binary-path] [--script-arguments=""]
                    Specify the path to watch, when a file change is detected
-                   call the specified binary at the path with the specific script
-                   arguments.
+                   this utility will call the specified binary at the path with the
+                   specific script arguments.
   watch:background [watch-path] [binary-path] [--script-arguments=""]
                    Runs process in the background. Specify the path to watch,
-                   when a file change is detected call the specified binary
-                   at the path with the specific script arguments.
+                   when a file change is detected this utility will call the
+                   specified binary at the path with the specific script arguments.
   watch:load       Load watchers from a config file.
   watch:list       List all current watchers.
   watch:kill       [pid]

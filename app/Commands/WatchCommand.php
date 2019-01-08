@@ -24,7 +24,15 @@ class WatchCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Run a watcher on the supplied path';
+    public function getDescription()
+    {
+        $description = "[watch-path] [binary-path] [--script-arguments=\"\"]\n";
+        $description .= "                   Specify the path to watch, when a file change is detected\n";
+        $description .= "                   this utility will call the specified binary at the path with the\n";
+        $description .= "                   specific script arguments.";
+
+        return $description;
+    }
 
     /**
      * Execute the console command.
