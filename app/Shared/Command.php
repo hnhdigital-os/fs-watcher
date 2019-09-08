@@ -9,7 +9,9 @@ use LaravelZero\Framework\Commands\Command as ZeroCommand;
 
 class Command extends ZeroCommand
 {
-    use CommandInternalsTrait, LoggingTrait, OutputTrait;
+    use OutputTrait;
+    use LoggingTrait;
+    use CommandInternalsTrait;
 
     /**
      * Check requirements.

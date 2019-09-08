@@ -11,7 +11,7 @@ trait ProcessesTrait
      *
      * @return string
      */
-    private function processListPath()
+    protected function processListPath()
     {
         return $this->getConfigPath('watchers.yml', true);
     }
@@ -23,7 +23,7 @@ trait ProcessesTrait
      *
      * @return string
      */
-    private function getCommandHash(...$strings)
+    protected function getCommandHash(...$strings)
     {
         return hash('sha256', implode(' ', $strings));
     }
@@ -36,7 +36,7 @@ trait ProcessesTrait
      *
      * @return int
      */
-    private function backgroundProcess($directory_path, $binary, $script_arguments)
+    protected function backgroundProcess($directory_path, $binary, $script_arguments)
     {
         $this->cleanProcessList();
 
@@ -96,7 +96,7 @@ trait ProcessesTrait
      *
      * @return int
      */
-    private function runProcess($directory_path, $binary, $script_arguments)
+    protected function runProcess($directory_path, $binary, $script_arguments)
     {
         if (!function_exists('inotify_init')) {
             $this->bigError('You need to install PECL inotify to be able to use watcher.');
@@ -121,7 +121,7 @@ trait ProcessesTrait
      *
      * @return void
      */
-    private function listProcesses()
+    protected function listProcesses()
     {
         $this->cleanProcessList();
         $data = $this->getProcessList();
@@ -179,7 +179,7 @@ trait ProcessesTrait
      *
      * @return void
      */
-    private function addProcess($pid, $directory_path, $binary, $script_arguments)
+    protected function addProcess($pid, $directory_path, $binary, $script_arguments)
     {
         $data = $this->getProcessList();
 
@@ -202,7 +202,7 @@ trait ProcessesTrait
      *
      * @return void
      */
-    private function cleanProcessList()
+    protected function cleanProcessList()
     {
         $data = $this->getProcessList();
         $sha_to_pid = [];
@@ -231,7 +231,7 @@ trait ProcessesTrait
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    private function getProcessList()
+    protected function getProcessList()
     {
         $process_list_path = $this->processListPath();
         // Parse the YAML config file.
@@ -251,7 +251,7 @@ trait ProcessesTrait
      *
      * @return void
      */
-    private function saveProcessList($data)
+    protected function saveProcessList($data)
     {
         $process_list_path = $this->processListPath();
         file_put_contents($process_list_path, Yaml::dump($data));
@@ -264,7 +264,7 @@ trait ProcessesTrait
      *
      * @return int
      */
-    private function killProcess($pid, $output = true)
+    protected function killProcess($pid, $output = true)
     {
         if (empty($pid)) {
             return 1;

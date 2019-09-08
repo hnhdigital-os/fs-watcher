@@ -56,7 +56,7 @@ trait WatchTrait
      *
      * @return void
      */
-    private function listenForEvents()
+    protected function listenForEvents()
     {
         // As long as we have watches that exist, we keep looping.
         while (count($this->track_watches)) {
@@ -81,7 +81,7 @@ trait WatchTrait
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    private function processEvent($event_detail)
+    protected function processEvent($event_detail)
     {
         $is_dir = false;
 
@@ -153,7 +153,7 @@ trait WatchTrait
      *
      * @return void
      */
-    private function runCommand($file_path, $event_id)
+    protected function runCommand($file_path, $event_id)
     {
         $find_replace = [
             'event-id'  => $event_id,
@@ -184,7 +184,7 @@ trait WatchTrait
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    private function addWatchPath($original_path, $options = false)
+    protected function addWatchPath($original_path, $options = false)
     {
         $path = trim($original_path);
 
@@ -299,7 +299,7 @@ trait WatchTrait
      *
      * @return void
      */
-    private function removeWatchPath($file_path)
+    protected function removeWatchPath($file_path)
     {
         // Find the watch ID for this path.
         $watch_id = array_search($file_path, $this->track_watches);

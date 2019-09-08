@@ -11,7 +11,7 @@ trait LoggingTrait
      *
      * @return string
      */
-    private function logPath($pid = 0)
+    protected function logPath($pid = 0)
     {
         if (empty($pid)) {
             return $this->getConfigPath('logs/wp-monitor.log', true);
@@ -30,7 +30,7 @@ trait LoggingTrait
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    private function addLog($text, $pid = 0)
+    protected function addLog($text, $pid = 0)
     {
         if ($pid === 0) {
             $pid = getmypid();
@@ -56,7 +56,7 @@ trait LoggingTrait
      *
      * @return void
      */
-    private function clearLog($pid)
+    protected function clearLog($pid)
     {
         $log_path = $this->logPath($pid);
         file_put_contents($log_path, '');
@@ -69,7 +69,7 @@ trait LoggingTrait
      *
      * @return void
      */
-    private function deleteLog($pid, $output = true)
+    protected function deleteLog($pid, $output = true)
     {
         $log_path = $this->logPath($pid);
         unlink($log_path);
@@ -86,7 +86,7 @@ trait LoggingTrait
      *
      * @return void
      */
-    private function getLog($pid)
+    protected function getLog($pid)
     {
         if (config('user.disable-logging')) {
             $this->bigInfo('Logging was disabled.');
