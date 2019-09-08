@@ -9,7 +9,7 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 ## Requirements
 
 * PHP 7.1.3 (min)
-* php-inotify
+* php-inotify (`pecl install inotify`)
 
 ## Installation
 
