@@ -31,7 +31,7 @@ class LogCommand extends Command
         $description .= "  <info>watch:log</info>        [--where]\n";
         $description .= "                   Returns the path of the log files.\n";
         $description .= "  <info>watch:log</info>        [pid] [--clear]\n";
-        $description .= "                   Clears the logs for a specifici process ID.\n";
+        $description .= "                   Clears the logs for a specific process ID.\n";
         $description .= "  <info>watch:log</info>        [--clear]\n";
         $description .= "                   Clears all the logs.";
 

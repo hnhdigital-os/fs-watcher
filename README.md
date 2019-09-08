@@ -51,7 +51,7 @@ USAGE: fs-watcher <command> [options] [arguments]
   watch:log        [--where]
                    Returns the path of the log files.
   watch:log        [pid] [--clear]
-                   Clears the logs for a specifici process ID.
+                   Clears the logs for a specific process ID.
   watch:log        [--clear]
                    Clears all the logs.
 
@@ -61,7 +61,7 @@ USAGE: fs-watcher <command> [options] [arguments]
 
 For example, if we want to watch for changes in the `/some/folder/example` path and have all changes notified to the executable file `/some/bin/binary-file`.
 
-Note: This utility replaces the follwoing placeholders {{root-path}}, {{file-path}} and {{event-id}} in the script-arguments argument with values. Both path arguments do not need quotations as they will be added automatically.
+Note: This utility replaces the following placeholders {{root-path}}, {{file-path}} and {{event-id}} in the script-arguments argument with values. Both path arguments do not need quotations as they will be added automatically.
 
 `fs-watcher watch:background /some/folder/example /some/bin/binary-file --script-arguments="{{root-path}} {{file-path}} {{event-id}}"`
 
