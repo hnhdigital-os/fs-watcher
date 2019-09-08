@@ -87,6 +87,12 @@ Example:
  - /some/bin/binary-file: {{root-path}} {{file-path}} {{event-id}}
 ```
 
+And then run this to load and start the watcher:
+
+```
+fs-watcher watch:load example.yml
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/fs-watcher/blob/master/CONTRIBUTING.md) for details.
