@@ -68,11 +68,18 @@ class LoadCommand extends Command
             return 1;
         }
 
+        // Verify configuration.
         foreach ($config as $folder => $scripts) {
-            if (!file_exists($folder_path = $folder)) {
+            $folder_path = $folder;
+
+            if (!file_exists($folder_path)) {
                 $folder_path = base_path().'/'.$folder;
-                if (!file_exists($config_file_path)) {
-                    $this->bigError(sprintf('Folder %s requested to watch does not exist.', $folder));
+
+                if (!file_exists($folder_path)) {
+                    $this->bigError(sprintf(
+                        'Folder %s requested to watch does not exist.',
+                        $folder
+                    ));
 
                     return 1;
                 }
@@ -81,7 +88,10 @@ class LoadCommand extends Command
             foreach ($scripts as $script) {
                 foreach ($script as $binary => $script_arguments) {
                     if (!file_exists($binary)) {
-                        $this->bigError(sprintf('Binary %s does not exist.', $binary));
+                        $this->bigError(sprintf(
+                            'Binary %s does not exist.',
+                            $binary
+                        ));
 
                         return 1;
                     }
@@ -90,9 +100,21 @@ class LoadCommand extends Command
         }
 
         foreach ($config as $folder => $scripts) {
+            $folder_path = $folder;
+
+            if (!file_exists($folder_path)) {
+                $folder_path = base_path().'/'.$folder;
+            }
+
             foreach ($scripts as $script) {
                 foreach ($script as $binary => $script_arguments) {
-                    $this->addLog(sprintf('Will watch \'%s\' and run \'%s %s\'', $folder_path, $binary, str_replace('%s', '<file-path>', $script_arguments)), getmypid());
+                    $this->addLog(sprintf(
+                        'Will watch \'%s\' and run \'%s %s\'',
+                        $folder_path,
+                        $binary,
+                        str_replace('%s', '<file-path>', $script_arguments)
+                    ));
+
                     $this->backgroundProcess($folder_path, $binary, $script_arguments);
                 }
             }
