@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "hnhdigital-os/php-cli-helper": "^1.1",
         "laravel-zero/framework": "^8.4"
     },
     "require-dev": {
