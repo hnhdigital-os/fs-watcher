@@ -18,10 +18,10 @@
     "require": {
         "php": "^7.3|^8.0",
         "hnhdigital-os/php-cli-helper": "^1.1",
-        "laminas/laminas-text": "^2.8",
-        "laravel-zero/framework": "^8.4"
+        "laminas/laminas-text": "^2.8"
     },
     "require-dev": {
+        "laravel-zero/framework": "^8.4",
         "mockery/mockery": "^1.4.2",
         "pestphp/pest": "^1.0"
     },
@@ -42,5 +42,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["application"]
+    "bin": ["build/fs-tasker"]
 }
