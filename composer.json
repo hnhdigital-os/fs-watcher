@@ -20,6 +20,7 @@
         "ext-inotify": "*",
         "hnhdigital-os/php-cli-helper": "^1.1",
         "laminas/laminas-text": "^2.8",
+        "padraic/phar-updater": "^1.0.6",
         "symfony/yaml": "^5.2",
         "vlucas/phpdotenv": "^5.3"
     },
