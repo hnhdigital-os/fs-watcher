@@ -139,7 +139,7 @@ trait ProcessesTrait
                 $rows = [];
 
                 foreach ($data as $pid => $process) {
-                    if ($process['directory_path'] != $directory) {
+                    if (is_int($process) || $process['directory_path'] != $directory) {
                         continue;
                     }
 
@@ -234,6 +234,7 @@ trait ProcessesTrait
     protected function getProcessList()
     {
         $process_list_path = $this->processListPath();
+
         // Parse the YAML config file.
         try {
             $result = Yaml::parse(file_get_contents($process_list_path));
