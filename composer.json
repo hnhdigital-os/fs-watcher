@@ -17,8 +17,11 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "ext-inotify": "*",
         "hnhdigital-os/php-cli-helper": "^1.1",
-        "laminas/laminas-text": "^2.8"
+        "laminas/laminas-text": "^2.8",
+        "symfony/yaml": "^5.2",
+        "vlucas/phpdotenv": "^5.3"
     },
     "require-dev": {
         "laravel-zero/framework": "^8.4",
